@@ -19,18 +19,20 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+
         String action = intent.getAction();
 
         final TextView textView = (TextView) findViewById(R.id.greet_text);
         textView.setText("");
-        final View progressBar = findViewById(R.id.progressBar);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
 
         if(action.equals(Intent.ACTION_SEND)) {
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
             Log.d("Share With Title", "Received shared text: " + sharedText);
-
-            new TitleRetriever(sharedText).retrieve(new UpdateViewCallback(getApplicationContext(), textView, progressBar));
+            new TitleRetriever(sharedText).retrieve(new ReshareCallback(this, progressBar));
         }
     }
 

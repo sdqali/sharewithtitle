@@ -21,18 +21,18 @@ class UpdateViewCallback implements TitleGrabCallback {
     }
 
     @Override
-    public void update(String title) {
+    public void onSuccess(String title) {
         textView.setText(title);
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void showProgress() {
+    public void onProgress() {
         progressBar.animate();
     }
 
     @Override
-    public void finish() {
+    public void cleanUp() {
         progressBar.setVisibility(View.GONE);
     }
 

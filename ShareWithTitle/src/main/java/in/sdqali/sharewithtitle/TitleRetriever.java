@@ -17,11 +17,11 @@ public class TitleRetriever {
         this.urlText = url;
     }
 
-    public void retrieve(TitleGrabCallback viewUpdater) {
+    public void retrieve(TitleGrabCallback callback) {
         if(isValidUrl(urlText)) {
-            new DownloadTaskNew(viewUpdater).execute(urlText);
+            new DownloadTaskNew(callback).execute(urlText);
         } else {
-            viewUpdater.showError("Not a valid url. Could not load title!");
+            callback.showError("Not a valid url. Could not load title!");
         }
     }
 
@@ -30,16 +30,16 @@ public class TitleRetriever {
     }
 
     private class DownloadTaskNew extends AsyncTask<String, Void, String> {
-        private TitleGrabCallback viewUpdater;
+        private TitleGrabCallback callback;
         private final PageDownloader pageDownloader = new PageDownloader();
 
-        public DownloadTaskNew(TitleGrabCallback viewUpdater) {
-            this.viewUpdater = viewUpdater;
+        public DownloadTaskNew(TitleGrabCallback callback) {
+            this.callback = callback;
         }
 
         @Override
         protected String doInBackground(String... urls) {
-            viewUpdater.showProgress();
+            callback.onProgress();
             return pageDownloader.downloadUrl(urls[0]);
         }
 
@@ -49,13 +49,14 @@ public class TitleRetriever {
             Pattern p = Pattern.compile("<head>.*?<title>(.*?)</title>.*?</head>", Pattern.DOTALL);
             Matcher m = p.matcher(rawHtml);
             String title;
-            viewUpdater.update(urlText);
+            String output = urlText;
             while (m.find()) {
                 title = m.group(1);
                 Log.d("Share With Title", "Title: " + title);
-                viewUpdater.update(title);
+                output = title + " " + urlText;
             }
-            viewUpdater.finish();
+            callback.onSuccess(output);
+            callback.cleanUp();
         }
     }
 }
