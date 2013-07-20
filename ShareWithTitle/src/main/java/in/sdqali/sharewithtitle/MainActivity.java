@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,24 +21,37 @@ public class MainActivity extends Activity {
         Intent intent = getIntent();
         String action = intent.getAction();
 
-        TextView textView = (TextView) findViewById(R.id.greet_text);
+        final TextView textView = (TextView) findViewById(R.id.greet_text);
         textView.setText("");
+        final View progressBar = (ProgressBar)findViewById(R.id.progressBar);
+
 
         if(action.equals(Intent.ACTION_SEND)) {
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
             Log.d("Share With Title", "Received shared text: " + sharedText);
 
+            new TitleRetriever(sharedText).retrieve(new TitleViewUpdater() {
+                @Override
+                public void update(String title) {
+                    textView.setText(title);
+                    progressBar.setVisibility(View.VISIBLE);
+                }
 
-            ShareableOutput shareableOutput = new ShareableOutput(sharedText);
-            textView.setText(shareableOutput.output());
-            if (shareableOutput.isValidUrl()) {
-                return;
-            }
-            showToast("Could not retrieve title. Not a valid url.");
-        } else if (action.equals(Intent.ACTION_MAIN)) {
-            Log.d("Share With Title", "Started from main");
+                @Override
+                public void showProgress() {
+                    progressBar.animate();
+                }
 
-            textView.setText("Nothing to see here!");
+                @Override
+                public void finish() {
+                    progressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void showError(String errorMessage) {
+                    showToast(errorMessage);
+                }
+            });
         }
     }
 
