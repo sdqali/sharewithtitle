@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,16 +18,14 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
-
         String action = intent.getAction();
 
-        final TextView textView = (TextView) findViewById(R.id.greet_text);
-        textView.setText("");
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
 
