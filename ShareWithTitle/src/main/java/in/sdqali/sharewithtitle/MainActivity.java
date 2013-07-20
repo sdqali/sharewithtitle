@@ -23,46 +23,16 @@ public class MainActivity extends Activity {
 
         final TextView textView = (TextView) findViewById(R.id.greet_text);
         textView.setText("");
-        final View progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        final View progressBar = findViewById(R.id.progressBar);
 
 
         if(action.equals(Intent.ACTION_SEND)) {
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
             Log.d("Share With Title", "Received shared text: " + sharedText);
 
-            new TitleRetriever(sharedText).retrieve(new TitleGrabCallback() {
-                @Override
-                public void update(String title) {
-                    textView.setText(title);
-                    progressBar.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void showProgress() {
-                    progressBar.animate();
-                }
-
-                @Override
-                public void finish() {
-                    progressBar.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void showError(String errorMessage) {
-                    showToast(errorMessage);
-                }
-            });
+            new TitleRetriever(sharedText).retrieve(new UpdateViewCallback(getApplicationContext(), textView, progressBar));
         }
     }
-
-    private void showToast(String text) {
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -70,5 +40,5 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    
+
 }
