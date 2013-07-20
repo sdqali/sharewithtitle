@@ -1,11 +1,8 @@
 package in.sdqali.sharewithtitle;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.webkit.URLUtil;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,7 +17,7 @@ public class TitleRetriever {
         this.urlText = url;
     }
 
-    public void retrieve(TitleViewUpdater viewUpdater) {
+    public void retrieve(TitleGrabCallback viewUpdater) {
         if(isValidUrl(urlText)) {
             new DownloadTaskNew(viewUpdater).execute(urlText);
         } else {
@@ -33,10 +30,10 @@ public class TitleRetriever {
     }
 
     private class DownloadTaskNew extends AsyncTask<String, Void, String> {
-        private TitleViewUpdater viewUpdater;
+        private TitleGrabCallback viewUpdater;
         private final PageDownloader pageDownloader = new PageDownloader();
 
-        public DownloadTaskNew(TitleViewUpdater viewUpdater) {
+        public DownloadTaskNew(TitleGrabCallback viewUpdater) {
             this.viewUpdater = viewUpdater;
         }
 

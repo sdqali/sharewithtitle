@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
             String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
             Log.d("Share With Title", "Received shared text: " + sharedText);
 
-            new TitleRetriever(sharedText).retrieve(new TitleViewUpdater() {
+            new TitleRetriever(sharedText).retrieve(new TitleGrabCallback() {
                 @Override
                 public void update(String title) {
                     textView.setText(title);
