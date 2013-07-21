@@ -23,7 +23,13 @@ public class ReshareCallback implements TitleGrabCallback{
     @Override
     public void onSuccess(String titleAndLink) {
         progressBar.setVisibility(View.VISIBLE);
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        showToast("Successfully grabbed title!");
+        reShare(titleAndLink);
+        cleanUp();
+    }
+
+    private void reShare(String titleAndLink) {
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
 
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(Intent.EXTRA_TEXT, titleAndLink);
@@ -41,11 +47,15 @@ public class ReshareCallback implements TitleGrabCallback{
     }
 
     @Override
-    public void showError(String errorMessage) {
+    public void showError(String errorMessage, String urlText) {
+        showToast(errorMessage);
+        reShare(urlText);
+        cleanUp();
+    }
+
+    private void showToast(String errorMessage) {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(activity.getApplicationContext(), errorMessage, duration);
         toast.show();
-        progressBar.setVisibility(View.GONE);
-        activity.finish();
     }
 }

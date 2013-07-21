@@ -7,5 +7,5 @@ public interface TitleGrabCallback {
     public void onSuccess(String title);
     public void onProgress();
     public void cleanUp();
-    public void showError(String errorMessage);
+    public void showError(String errorMessage, String urlText);
 }

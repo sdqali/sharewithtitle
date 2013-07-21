@@ -17,7 +17,7 @@ public class TitleRetriever {
         if(isValidUrl(urlText)) {
             new DownloadTaskNew(callback).execute(urlText);
         } else {
-            callback.showError("Not a valid url. Could not load title!");
+            callback.showError("Not a valid url. Could not load title!", urlText);
         }
     }
 
@@ -47,7 +47,6 @@ public class TitleRetriever {
                 output = title + " " + urlText;
             }
             callback.onSuccess(output);
-            callback.cleanUp();
         }
     }
 }
