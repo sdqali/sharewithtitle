@@ -45,5 +45,7 @@ public class ReshareCallback implements TitleGrabCallback{
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(activity.getApplicationContext(), errorMessage, duration);
         toast.show();
+        progressBar.setVisibility(View.GONE);
+        activity.finish();
     }
 }
