@@ -38,6 +38,9 @@ public class PageDownloader {
             String line = "";
             while ((line = reader.readLine()) != null) {
                 output += line;
+                if(TitleParser.retrieveTitle(output) != null) {
+                    return output;
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,6 +55,4 @@ public class PageDownloader {
         }
         return output;
     }
-
-
 }

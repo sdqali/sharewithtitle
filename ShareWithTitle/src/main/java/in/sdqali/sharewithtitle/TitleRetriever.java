@@ -45,14 +45,9 @@ public class TitleRetriever {
 
         @Override
         protected void onPostExecute(String rawHtml) {
-            Log.d("Share With Title", "On post: " + rawHtml);
-            Pattern p = Pattern.compile("<head>.*?<title>(.*?)</title>.*?</head>", Pattern.DOTALL);
-            Matcher m = p.matcher(rawHtml);
-            String title;
+            String title = TitleParser.retrieveTitle(rawHtml);
             String output = urlText;
-            while (m.find()) {
-                title = m.group(1);
-                Log.d("Share With Title", "Title: " + title);
+            if (title != null) {
                 output = title + " " + urlText;
             }
             callback.onSuccess(output);
