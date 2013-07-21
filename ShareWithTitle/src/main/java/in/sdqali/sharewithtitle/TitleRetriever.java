@@ -1,11 +1,7 @@
 package in.sdqali.sharewithtitle;
 
 import android.os.AsyncTask;
-import android.util.Log;
 import android.webkit.URLUtil;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by sdqali on 7/20/13.
