@@ -1,5 +1,6 @@
 package in.sdqali.sharewithtitle;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,6 +12,6 @@ public class TitleParser {
         while (m.find()) {
             title = m.group(1);
         }
-        return title;
+        return StringEscapeUtils.unescapeHtml4(title);
     }
 }
